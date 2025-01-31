@@ -1,23 +1,44 @@
 import './App.css';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 
 export default function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  /// Express-Server communication
+  const baseUrl = 'http://localhost:4000';
+
+  // Retrieving all guests
+  useEffect(() => {
+    function getAllGuest() {
+      fetch(`${baseUrl}/guests`)
+        .then(function (data) {
+          console.log(data.json());
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    getAllGuest();
+  }, []);
+
+  // Creating a single guest
+  useEffect(() => {
+    function createNewGuest() {
+      fetch(`${baseUrl}/guests`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ firstName: 'Johnny', lastName: 'Bravo' }),
+      })
+        .then(function (data) {
+          console.log(data.json());
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    createNewGuest();
+  }, []);
+
+  return <div>TestDiv</div>;
 }
